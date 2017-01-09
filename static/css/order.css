@@ -1,0 +1,82 @@
+#menu{
+
+}
+
+#basic .panel-body{
+	height:60px;
+}
+
+.panel-body{
+	height: 550px;
+}
+
+.foodimg{	
+	float: left;
+	margin-right: 10px; 
+	margin-bottom: 5px; 
+}
+
+.foodinfo{
+	width:150px;
+	height: 105px; /* 图片content＋margin*/
+	float:left; 
+}
+
+.foodinfo p{
+	text-overflow:ellipsis;
+	word-wrap:break-word; 
+}
+
+.foodcheck{
+	height: 105px;
+}
+
+
+img{
+width:100px;
+height: 100px
+}
+
+#soup
+{
+
+}
+
+#sweet
+{
+
+}
+
+#drink
+{
+
+}
+
+#cold
+{
+
+}
+
+#meat
+{
+
+}
+
+#vege
+{
+
+
+ /* Firefox */
+ /*
+-moz-box-flex:1.0;
+*/
+ /* Safari 和 Chrome */
+ /*
+-webkit-box-flex:1.0;
+*/
+/*
+box-flex:1.0;
+margin: 5px;
+*/
+
+}

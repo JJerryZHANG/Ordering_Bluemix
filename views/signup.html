@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link rel="stylesheet" href="/static/css/public.css"></link>
+	<title>Sign Up</title>
+</head>
+<body>
+<div class="container">
+<header>
+    <div class="row">
+
+    <div class="logo col-md-9">
+      <a href="/"><img src="/static/imgs/logo/logo.png"></a>
+    </div>
+
+    <div class="col-md-2">
+    <ul class="list-inline"> 
+    	<li><a href="/">主页</a></li>
+    	<li><a href="/login">登录</a></li>
+    </ul>
+    </div>
+
+    </div>
+</header>
+<div class="row">
+
+	<div class="col-md-4"></div>
+	<div class="col-md-4">
+		<form class="form-horizontal" method="post">
+		<div class="row">
+		<h2>Sign Up</h2>
+			<!--用户名-->
+			<div class="form-group">
+				<label class="col-md-3">User Name</label>
+				<div class="col-md-9">
+					<input type="text" name="username" class="form-control" placeholder="User Name">
+				</div>
+			</div>
+			<!--用户密码-->
+			<div class="form-group">
+				<label class="col-md-3">Password</label>
+				<div class="col-md-9">
+					<input type="password" name="password" class="form-control" placeholder="Password">
+				</div>
+			</div>
+			<!--用户性别-->
+			<div class="form-group">
+				<label class="col-md-3">Sex</label>
+				<div class="col-md-9">
+					<label class="radio-inline">
+  					<input type="radio" name="sex" value="male"> Male
+					</label>
+					<label class="radio-inline">
+  					<input type="radio" name="sex" value="female"> Female
+					</label>
+				</div>
+			</div>
+			<!--用户年龄-->
+			<div class="form-group">
+				<label class="col-md-3">Age</label>
+				<div class="col-md-9">
+					<input type="text" name="age" class="form-control" placeholder="Age">
+				</div>
+			</div>
+			<!--用户区域-->
+			<div class="form-group">
+				<label class="col-md-3">中意的菜系</label>
+				<div class="col-md-9">
+					<select class="form-control" name="area">
+  						<option value="粤菜">粤菜</option>
+						<option value="鲁菜">鲁菜</option>
+						<option value="川菜">川菜</option>
+						<option value="苏菜">苏菜</option>
+						<option value="浙菜">浙菜</option>
+						<option value="闽菜">闽菜</option>
+						<option value="湘菜">湘菜</option>
+						<option value="徽菜">徽菜</option>
+					</select>
+				</div>	
+			</div>
+			<!--用户注册按钮-->
+			<div class="form-group">
+				<div class="col-md-3">
+					<button type="submit" class="btn btn-primary">Sign up</button>
+				</div>
+			</div>
+
+		</div>
+		</form>
+	</div>
+</div><!--row-->
+</div><!--container-->
+</body>
+</html>

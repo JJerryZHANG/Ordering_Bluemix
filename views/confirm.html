@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html ng-app="confirmapp">
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/confirm.css"></link>
+	<title>Menu Confirm</title>
+</head>
+<body>
+<!--
+	原理：
+	上个页面完成点单，点击“finish”按钮后跳转到此页面，此页面加载后，从数据库获取该用户的菜单的所有菜的id
+	session.user 作为查询条件查询orders表，获取当前userid下的“foods”属性，得到一个foods数组。获取该数
+	组的所有值，并以每个数组为查询条件，查询foods表，获取每样菜的完整信息（图片，名字，价格），呈现在该页面（用angularjs逐条呈现）
+-->
+<!--  -->
+<div class="container" ng-controller="confirmctrl">
+<h1>当前用户点的菜单的信息确认，确认后关闭</h1>
+	<table class="table">
+		<tr><td>忌口：</td><td>
+		<label>{{order.avoid}}</label>
+		<!--
+		<input type="text" ng-model="order.avoid">
+		-->
+		</td></tr>
+		<tr>
+			<td>菜名：</td>
+			<td>价格：</td>
+		</tr>
+		<tr ng-repeat="info in order.foods">
+			<td><label>{{info[1]}}</label>
+			<!--<input type="text" ng-model="info[1]"></input>-->
+			</td>	
+			<td><label>{{info[2]}}</label>
+			<!--<input type="text" ng-model="info[2]"></input>-->
+		</tr>
+		<tr><td>价格总计：</td>
+		<td><label>{{order.total}}</label></td></tr>
+		<tr><td><button type="button" class="btn btn-danger" ng-click="close()">关闭</button></td><td></td></tr>
+	</table>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script type="text/javascript" src="/static/js/confirmctrl.js"></script>
+</body>
+</html>

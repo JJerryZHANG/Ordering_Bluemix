@@ -1,0 +1,28 @@
+{
+	"name": "15097486g",
+  	"version": "1.0.0",
+  	"description": "ZHANG Jie's Graduate Project",
+  	"main": "app.js",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"start": "node app.js"
+	},
+	"dependencies": {
+		"express": "4.14.0",
+		"cfenv": "1.0.x",
+		"cf-deployment-tracker-client": "*",
+		"body-parser": "1.15.2",
+		"connect-mongo": "1.3.2",
+		"crypto": "0.0.3",
+		"ejs": "2.5.1",
+		"express-session": "1.14.0",
+		"mongoose": "4.5.8",
+		"multer": "1.2.0",
+		"mongodb": "^2.2.9"
+	},
+	"repository": {},
+	"engines": {
+		"node": "4.x"
+	} 
+}

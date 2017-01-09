@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html ng-app="indexapp">
+<head>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <link rel="stylesheet" href="/static/css/public.css"></link>
+  <link rel="stylesheet" href="/static/css/index.css"></link>
+  <title>主页</title>
+</head>
+<body>
+  <div class="container" ng-controller="indexctrl" ng-init="init()">
+
+  <header>
+    <div class="row">
+
+    <div class="logo col-md-9">
+      <img src="/static/imgs/logo/logo.png">
+    </div>
+    
+    <div class="logininfo col-md-3">
+    
+    <h2>Hello, <%= username %> </h2>
+    
+    <h5>
+      <ul ng-show='UserYes.show' class="list-inline"> 
+        <li><a href="/order">点单</a></li>  
+        <li><a href="/user">个人中心</a></li>
+        <li><a href="/logout">注销</a></li>   
+      </ul>
+      <ul ng-show='UserNo.show' class="list-inline">  
+        <li><a href="/login">登录</a></li>  
+        <li><a href="/signup">注册新用户</a></li>  
+      </ul> 
+    </h5>
+    </div> 
+
+    </div>
+  </header>
+
+    <!-- 用户登陆／未登陆 显示信息 放到header中-->
+  
+    <!--当前座位情况-->
+    <ul class="list-inline" id="seat">
+      <li><span class="label label-danger">当前就座人数: {{eating}}</span></li>
+      <li><span class="label label-success">当前待确认入座人数: {{available}}</span></li>
+      <li><span class="label label-info">当前等待人数: {{waiting}}</span></li>
+    </ul>
+
+    <div class="ad">
+    <center>
+      <img src="/static/imgs/indeximgs/mayday-ad.jpg">
+    </center>
+    </div>
+    
+   <!--
+    <div id="advertisement" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class=""></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2" class="active"></li>
+      </ol>
+      <div class="carousel-inner" role="listbox">
+        <div class="item">
+          <img src="/static/imgs/indeximgs/mayday-ad.jpg">
+        </div>
+        <div class="item">
+         <img src="/static/imgs/indeximgs/mayday-ad.jpg">
+       </div>
+       <div class="item active">
+        <img src="/static/imgs/indeximgs/mayday-ad.jpg">
+      </div>
+    </div>
+    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+-->
+
+
+
+  <!--广告栏
+  <div id="ad">
+  <div class="jumbotron"> 
+  <center>
+    <img src="/static/imgs/indeximgs/mayday-ad.jpg" style="width: 100%;height: 400px;" class="img-responsive" alt="Responsive image">
+  </center>
+  </div>
+  </div>
+  -->
+
+  <!--推荐内容（热门＋个性化推荐）-->
+  <div class="row" id="recmd-content">
+
+    <!-- 用于显示当前最热门的菜 -->
+    <div class="col-md-3" id="hot-food">
+    <ul class="list-group">
+      <li class="list-group-item active">当前热门菜</li>
+      <li class="list-group-item" ng-repeat="food in hotfood">
+        <img ng-src="/static/imgs/foodimgs/{{food.foodimg}}" width="50px" height="50px">
+        <label>{{food.foodname}}</label>
+        <span class="badge">HOT:{{food.foodhot}}</span>
+      </li>
+    </ul>
+    </div>
+    
+    <!-- 用户未登陆时显示 -->
+    <div class="col-md-9" ng-show='UserNo.show' id="logout-ing">
+      <p class="text-center">-- 登陆获取个性化推荐 --</p>
+    </div>
+
+    <!-- 用户登录时显示个性化推荐 -->
+    <div class="col-md-9" id="login-ing">
+    <!--每个food的信息-->
+    <!-- the first row-->
+    <div class="row">
+    <div class="col-md-3" ng-repeat="recmdFood in recmdFoodInfo1" id="recmd-food">
+      <div class="thumbnail">
+        <img ng-src="/static/imgs/foodimgs/{{recmdFood.foodimg}}">
+        <div class="caption">
+          <div class="list-group-item">
+          {{recmdFood.foodname}}<span class="badge">{{recmdFood.foodprice}} HKD</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- the second row-->
+    <div class="row">
+    <div class="col-md-3" ng-repeat="recmdFood in recmdFoodInfo2" id="recmd-food">
+      <div class="thumbnail">
+        <img ng-src="/static/imgs/foodimgs/{{recmdFood.foodimg}}">
+        <div class="caption">
+          <div class="list-group-item">
+          {{recmdFood.foodname}}<span class="badge">{{recmdFood.foodprice}} HKD</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    </div>
+
+  </div>
+</div> <!--container-->
+<footer>
+  <center>
+    The website is made by ZHANG Jie, 15097486g
+  </center>
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script type="text/javascript" src="/static/js/indexctrl.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link rel="stylesheet" href="/static/css/public.css"></link>
+	<link rel="stylesheet" type="text/css" href="/static/css/foods.css">
+	<title>Food Menu Admin</title>
+</head>
+<body>
+	<div class="container" ng-app="menuapp" ng-controller="menuctrl">
+	<header>
+    <div class="row">
+
+    <div class="logo col-md-9">
+      <img src="/static/imgs/logo/logo.png">
+    </div>
+
+    <div class="col-md-3">
+    	<a href="/ordersadmin">订单管理页面</a>
+    </div>
+
+    </div>
+	</header>
+		
+	<!--2、当页面跳转到food管理页面后，点击Add Food，执行“/food/add”的post方法,-->
+
+		<div class="row" id="food-operation">
+			<!--添加菜肴-->
+			<div class="col-md-6">
+			<div class="panel panel-primary" id="food-add">
+				<div class="panel-heading">
+					<h3 class="panel-title">添加菜品</h3>
+				</div>
+				<div class="panel-body">
+					<form method="post" enctype="multipart/form-data" action="/food/add">
+						<table class="table">
+							<tr><td>菜肴图片名称:</td><td><input type="text" name="foodimg" required="required"></input> <!--add img--></td></tr>
+							<tr><td>菜肴图片选择:</td><td>
+								<input type="file" name="foodimg" required="required">	
+							</td></tr>
+							<tr><td>菜肴名称:</td><td><input type="text" name="foodname" required="required"></input></td></tr>
+							<tr><td>菜肴价格:</td><td><input type="text" name="foodprice" required="required"></input></td></tr>
+							<tr><td><!--<input type="text" name="fooddesc"></input>-->	
+								菜肴描述:</td><td><textarea cols="20" rows="2" name="fooddesc" required="required"></textarea></td></tr>
+								<tr><td>菜肴类型:</td><td>
+									<select class="form-control" name="foodtype" >
+										<!-- type -->
+										<option value="soup">soup</option>
+										<option value="sweet">sweet</option>
+										<option value="cold">cold</option>
+										<option value="meat">meat</option>
+										<option value="vege">vege</option>
+										<option value="drink">drink</option>
+									</select>
+								</td></tr>
+								<tr><td>菜肴菜系:</td><td>
+									<select class="form-control" name="foodarea" >
+										<!--八大菜系-->
+										<option value="粤菜">粤菜</option>
+										<option value="鲁菜">鲁菜</option>
+										<option value="川菜">川菜</option>
+										<option value="苏菜">苏菜</option>
+										<option value="浙菜">浙菜</option>
+										<option value="闽菜">闽菜</option>
+										<option value="湘菜">湘菜</option>
+										<option value="徽菜">徽菜</option>
+										<option value="其他">其他</option>
+									</select>
+								</td></tr>
+								<tr><td><input type="submit" value="Add Food" class="btn btn-primary"></input></td>
+								<td></td></tr>
+							</table>	
+						</form>
+					</div>
+				</div>
+				</div>
+
+				<!--更新菜肴-->
+				<div class="col-md-6">
+				<div class="panel panel-primary" id="food-update">
+					<div class="panel-heading">
+						<h3 class="panel-title">更新菜品信息</h3>
+					</div>
+					<div class="panel-body">
+						<table class="table">	
+							<tr><td>菜肴图片名:</td><td><input type="text" ng-model="editedfood.foodimg" readonly="readonly"></input></td></tr>
+							<tr><td>菜肴名称:</td><td><input type="text" ng-model="editedfood.foodname" readonly="readonly"></input></td></tr>
+							<tr><td>菜肴价格:</td><td><input type="text" ng-model="editedfood.foodprice"></input></td></tr>
+							<tr><td>菜肴描述:</td><td><textarea cols="20" rows="2" ng-model="editedfood.fooddesc"></textarea></td></tr>
+							<tr><td>菜肴类型:</td><td><input type="text" ng-model="editedfood.foodtype" readonly="readonly"></input></td></tr>
+							<tr><td>菜肴菜系:</td><td><input type="text" ng-model="editedfood.foodarea" readonly="readonly"></input></td></tr>
+							<tr><td><button type="button" class="btn btn-primary" ng-click="updatefood(editedfood._id)">Update</button></td><td></td></tr>
+						</table>
+					</div>
+				</div>
+				</div>
+
+			</div>
+
+		<!--搜索菜肴-->
+		<div class="row" id="food-search">
+			<div class="col-md-6">
+   				<div class="input-group">
+     			<span class="input-group-btn">
+        			<button type="button" class="btn btn-info" ng-click="refresh()">所有菜肴</button>
+     			</span>
+    			</div><!-- /input-group -->
+  			</div><!-- /.col-lg-6 -->
+  			<div class="col-md-6">
+    			<div class="input-group">
+      			<span class="input-group-btn">
+        			<button class="btn btn-info" type="button" ng-click="searchfood(keyword)">搜索</button>
+      				</span>
+      				<input type="text" class="form-control" ng-model="keyword" >
+    			</div><!-- /input-group -->
+  			</div><!-- /.col-lg-6 -->		
+		</div><!-- /.row -->
+  		
+  		<!--显示菜肴-->
+  		<div class="row">
+  		<div class="col-md-9">
+		<div class="panel panel-default" id="food-list">
+			<div class="panel-body">
+				<table class="table">
+					<tr ng-repeat="food in menu">
+						<td><img ng-src="/static/imgs/foodimgs/{{food.foodimg}}" style="width: 100px; height: 100px"></td>
+						<td>{{food.foodname}}</td>
+						<td>{{food.foodprice}}</td>					
+						<td>{{food.fooddesc}}</td>
+						<td>{{food.foodtype}}</td>
+						<td>{{food.foodarea}}</td>
+						<td><button type="button" class="btn btn-danger" ng-click="deletefood(food._id)">Remove</button></td>
+						<td><button type="button" class="btn btn-success" ng-click="editfood(food._id)">Edit</button></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		</div>
+		</div>	
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script type="text/javascript" src="/static/js/foodadmin.js"></script>
+</body>
+</html>

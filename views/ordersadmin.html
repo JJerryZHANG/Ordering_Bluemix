@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html ng-app="orderadminapp">
+<head>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link rel="stylesheet" href="/static/css/public.css"></link>
+	<link rel="stylesheet" type="text/css" href="/static/css/orders.css">
+	<title>Menu Admin</title>
+</head>
+<body>
+	<div class="container" ng-controller="orderadminctrl">
+	<header>
+    <div class="row">
+
+    <div class="logo col-md-9">
+      <img src="/static/imgs/logo/logo.png">
+    </div>
+
+    <div class="col-md-3">
+    	<a href="/foodadmin">菜单管理</a>
+    </div>
+
+    </div>
+	</header>
+
+		<div class="row">
+
+			<div class="col-md-6">
+				<div class="panel panel-danger" id="waiting" >
+					<div class="panel-heading">
+						<h3 class="panel-title">排队中订单</h3>
+					</div>
+					<div class="panel-body">
+					<div>
+						<ul class="list-inline" class="row">
+							<li class="col-md-3">编号</li>
+							<li class="col-md-3">用户名</li>
+							<li class="col-md-3">点单时间</li>
+							<li class="col-md-3">操作</li>
+						</ul>
+					</div>
+					<br>
+					<div ng-repeat="info in waitingorders">
+						<ul class="list-inline" class="row">
+							<li class="col-md-3">{{$index+1}}</li>
+							<li class="col-md-3">{{info.username}}</li>
+							<li class="col-md-3">{{info.timestamp}}</li>
+							<li class="col-md-3"><button class="btn btn-danger" type="button" ng-click="delete(info._id)">删除</button></li>
+						</ul>
+					</div>
+					<!--
+					<ol>
+						<li ng-repeat="info in waitingorders">
+								<ul class="list-inline">
+									<li>{{info.username}}</li>
+									<li>{{info.timestamp}}</li>
+									<li><button class="btn btn-danger" type="button" ng-click="delete(info._id)">删除</button></li>
+								</ul>	
+						</li>
+					</ol>
+					-->
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="panel panel-success" id="available">
+					<div class="panel-heading">
+						<h3 class="panel-title">允许入座订单</h3>
+					</div>
+					<div class="panel-body">
+					<div>
+						<ul class="list-inline" class="row">
+							<li class="col-md-3">编号</li>
+							<li class="col-md-3">用户名</li>
+							<li class="col-md-3">点单时间</li>
+							<li class="col-md-3">操作</li>
+						</ul>
+					</div>
+					<br>
+					<div ng-repeat="info in availableorders">
+						<ul class="list-inline" class="row">
+							<li class="col-md-3">{{$index+1}}</li>
+							<li class="col-md-3">{{info.username}}</li>
+							<li class="col-md-3">{{info.timestamp}}</li>
+							<li class="col-md-3"><button class="btn btn-success" type="button" ng-click="sit(info._id)">入座</button></li>
+						</ul>
+					</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="row">
+
+			<div class="col-md-6">
+			<div class="panel panel-info" id="unpaid">
+				<div class="panel-heading">
+					<h3 class="panel-title">未付款订单</h3>
+				</div>
+				<div class="panel-body">
+					<!-- 一块区域显示未付款订单 -->
+					<ul class="list-unstyled">
+						<li class="row" id="order" ng-repeat="info in unpaidorders">
+							<div class="col-md-1">
+							<span class="badge">{{$index+1}}</span>
+							</div>
+							<div class="col-md-9" id="order-info">
+							<div class="list-group-item">
+								<ul class="list-inline">
+									<li class="col-sm-3"><strong>用户:</strong><mark><em>{{info.username}}</em></mark></li>
+									<li class="col-sm-3"><strong>价格:</strong><mark><em>{{info.total}}</em></mark></li>
+									<li class="col-sm-3"><strong>主食:</strong><mark><em>{{info.staple}}</em></mark></li>
+									<li class="col-sm-3"><strong>忌口:</strong><mark><em>{{info.avoid}}</em></mark></li>
+								</ul>
+								
+								<ul class="list-inline">
+									<li><strong>点菜清单:</strong></li>
+									<li ng-repeat="food in info.foods"><mark>{{$index+1}}.{{food[1]}}</mark></li>
+								</ul>
+							</div>
+							</div>
+							<div class="col-md-2" id="pay-button">
+							<button class="btn btn-info" type="button" ng-click="pay(info._id)">付款</button>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>	
+		</div>
+
+			<div class="col-md-6">
+				<div class="panel panel-default" id="paid">
+					<div class="panel-heading">
+						<h3 class="panel-title">已付款订单</h3>
+					</div>
+					<div class="panel-body">
+					<div>
+						<ul class="list-inline" class="row">
+							<li class="col-md-3">编号</li>
+							<li class="col-md-3">用户名</li>
+							<li class="col-md-3">点单日期</li>
+							<li class="col-md-3">操作</li>
+						</ul>
+					</div>
+					<br>
+					<div ng-repeat="info in paidorders">
+						<ul class="list-inline" class="row">
+							<li class="col-md-3">{{$index+1}}</li>
+							<li class="col-md-3">{{info.username}}</li>
+							<li class="col-md-3">{{info.timestamp}}</li>
+							<li class="col-md-3"><button class="btn btn-danger" type="button" ng-click="delete(info._id)">删除</button></li>
+						</ul>
+					</div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+
+
+		
+		
+			
+			
+
+			<!--
+			<div class="col-md-6">
+				<div class="panel panel-success" id="marked">
+					<div class="panel-heading">
+						<h3 class="panel-title">已评分订单</h3>
+					</div>
+					<div class="panel-body">
+						<ol>
+							<li ng-repeat="info in markedorders">
+								<ul class="list-inline">
+									<li>用户：</li>
+									<li>{{info.username}}</li>
+									<li><button class="btn btn-danger" type="button" ng-click="delete(info._id)">删除</button></li>
+								</ul>	
+							</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+			-->
+
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+	<script type="text/javascript" src="/static/js/ordersadmin.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+.ad{
+	margin-bottom: 20px; 
+}
+
+#hot-food span{
+	font-family: cursive;
+	color: red;
+	background: white;
+}
+
+#login-ing span{
+	font-family: cursive;
+	background: white;
+	color: black;
+}
+

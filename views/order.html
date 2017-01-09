@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/public.css"></link>
+    <link rel="stylesheet" type="text/css" href="/static/css/order.css">
+    <title>Order</title>
+</head>
+<body>
+    <div>
+        <!--2、当页面跳转到food管理页面后，点击Add Food，执行“/food/add”的post方法,-->
+    </div>
+<div class="container" ng-app="orderapp" ng-controller="orderctrl">
+<header>
+    <div class="row">
+
+    <div class="logo col-md-9">
+      <a href="/"><img src="/static/imgs/logo/logo.png"></a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="/">返回主页</a>
+    </div>
+
+    </div>
+</header>
+        <!-- 
+
+        <table class="table table-striped">
+            <tr class="success">
+                <td>菜肴图片</td>
+                <td>菜肴名称</td>
+                <td>菜肴价格</td>                   
+                <td>菜肴描述</td>
+                <td>菜肴类型</td>
+                <td>菜肴菜系</td>
+                <td>选择</td>                
+            </tr>
+            <tr><td>Soup:</td></tr>
+            <tr ng-repeat="food in soup">
+                <td><img ng-src="/static/imgs/foodimgs/{{food.foodimg}}" style="width: 100px; height: 100px"></td>
+                <td>{{food.foodname}}</td>
+                <td>{{food.foodprice}}</td>                 
+                <td>{{food.fooddesc}}</td>
+                <td>{{food.foodtype}}</td>
+                <td>{{food.foodarea}}</td>
+                <td><input type="checkbox" checklist-model="order.foodinfo" checklist-value="[food._id,food.foodname,food.foodprice,food.foodscore]"></td>
+                   
+                <td><input type="hidden" ng-model="food.foodscore">
+                </input></td>
+                *隐藏的分数属性，提交订单时加到order表
+                </tr>
+            </table> 
+        --> 
+        <div id="basic">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                <!-- 米饭 面条等信息 -->
+               <ul class="list-inline"> 
+                <li>主食:</li>
+                <li>
+                <select class="form-control" ng-model="staple">
+                    <option value="米饭">米饭</option>
+                    <option value="面条">面条</option>
+                </select>
+                </li>
+                <li>人数:</li>
+                <li>
+                <select class="form-control" ng-model="guestnum">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+                </li>
+                <li>忌口：
+                <input type="text" ng-model="avoid" placeholder="若无忌口，请填写'无'"></input></li>
+                <li><button type="button" class="btn btn-success" ng-click="addorder()">提交订单</button></li>
+                <li><button type="button" class="btn btn-danger" ng-click="clear()">重新点单</button></li>
+                </ul>
+                
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="menu">
+
+            <!--冷食信息-->
+            <div class="col-md-4">
+            <div class="panel panel-primary" id="cold">
+                <div class="panel-heading">
+                    <h3 class="panel-title">冷食</h3>
+                </div>
+                <div class="panel-body">
+                    <div ng-repeat="food in cold" class="food">
+                        <div class="foodimg"><img ng-src="/static/imgs/foodimgs/{{food.foodimg}}"></div>
+                        <div class="foodinfo">
+                            <ul class="list-unstyled">
+                                <li><b>{{food.foodname}}</b></li>
+                                <li>{{food.foodprice}} HKD</li>
+                                <li><p>{{food.fooddesc}}</p></li>
+                                <li><i>{{food.foodarea}}</i></li>
+                            </ul>
+                        </div>
+                        <div class="foodcheck"><input type="checkbox" checklist-model="order.foodinfo" checklist-value="[food._id,food.foodname,food.foodprice,food.foodscore]">
+                        </div>
+                    </div>
+                    
+                </div>
+                <center>
+                    <nav>
+                        <ul class="pagination">
+                            <li>
+                                <a ng-click="coldPrevious()" href="">
+                                    <span>上一页</span>
+                                </a>
+                            </li>
+                            <li ng-repeat="page in coldpageList" ng-class="{active: isActivePage_cold(page)}" >
+                                <a ng-click="coldSelectPage(page)" href="">
+                                    {{page}}
+                                </a>
+                            </li>
+                            <li>
+                                <a ng-click="coldNext()" href="">
+                                    <span>下一页</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </center>
+            </div>
+            </div>
+
+            <!--荤菜信息-->
+            <div class="col-md-4">
+            <div class="panel panel-success" id="meat">
+                <div class="panel-heading">
+                    <h3 class="panel-title">荤菜</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div ng-repeat="food in meat" class="food">
+                        <div class="foodimg"><img ng-src="/static/imgs/foodimgs/{{food.foodimg}}"></div>
+                        <div class="foodinfo">
+                            <ul class="list-unstyled">
+                                <li><b>{{food.foodname}}</b></li>
+                                <li>{{food.foodprice}} HKD</li>
+                                <li><p>{{food.fooddesc}}</p></li>
+                                <li><i>{{food.foodarea}}</i></li>
+                            </ul>
+                        </div>
+                        <div class="foodcheck"><input type="checkbox" checklist-model="order.foodinfo" checklist-value="[food._id,food.foodname,food.foodprice,food.foodscore]">
+                        </div>
+                    </div>
+
+                </div>
+                <center>
+                    <nav>
+                        <ul class="pagination">
+                            <li>
+                                <a ng-click="meatPrevious()" href="">
+                                    <span>上一页</span>
+                                </a>
+                            </li>
+                            <li ng-repeat="page in meatpageList" ng-class="{active: isActivePage_meat(page)}" >
+                                <a ng-click="meatSelectPage(page)" href="">
+                                    {{page}}
+                                </a>
+                            </li>
+                            <li>
+                                <a ng-click="meatNext()" href="">
+                                    <span>下一页</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </center>
+
+            </div>
+            </div>
+
+            <!--蔬菜信息-->
+            <div class="col-md-4">
+            <div class="panel panel-info" id="vege">
+                <div class="panel-heading">
+                    <h3 class="panel-title">素菜</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div ng-repeat="food in vege" class="food">
+                        <div class="foodimg"><img ng-src="/static/imgs/foodimgs/{{food.foodimg}}"></div>
+                        <div class="foodinfo">
+                            <ul class="list-unstyled">
+                                <li><b>{{food.foodname}}</b></li>
+                                <li>{{food.foodprice}} HKD</li>
+                                <li><p>{{food.fooddesc}}</p></li>
+                                <li><i>{{food.foodarea}}</i></li>
+                            </ul>
+                        </div>
+                        <div class="foodcheck"><input type="checkbox" checklist-model="order.foodinfo" checklist-value="[food._id,food.foodname,food.foodprice,food.foodscore]"></div>
+                    </div>
+
+                </div>
+                <center>
+                    <nav>
+                        <ul class="pagination">
+                            <li>
+                                <a ng-click="vegePrevious()" href="">
+                                    <span>上一页</span>
+                                </a>
+                            </li>
+                            <li ng-repeat="page in vegepageList" ng-class="{active: isActivePage_vege(page)}" >
+                                <a ng-click="vegeSelectPage(page)" href="">
+                                    {{page}}
+                                </a>
+                            </li>
+                            <li>
+                                <a ng-click="vegeNext()" href="">
+                                    <span>下一页</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </center>
+            </div>
+            </div>
+
+        </div>
+
+        <div class="row" id="menu">
+            <!--汤类-->
+            <div class="col-md-4">
+            <div class="panel panel-warning" id="soup">
+                <div class="panel-heading">
+                    <h3 class="panel-title">汤类</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div ng-repeat="food in soup" class="food">
+                        <div class="foodimg"><img ng-src="/static/imgs/foodimgs/{{food.foodimg}}"></div>
+                        <div class="foodinfo">
+                            <ul class="list-unstyled">
+                                <li><b>{{food.foodname}}</b></li>
+                                <li>{{food.foodprice}} HKD</li>
+                                <li><p>{{food.fooddesc}}</p></li>
+                                <li><i>{{food.foodarea}}</i></li>
+                            </ul>
+                        </div>
+                        <div class="foodcheck"><input type="checkbox" checklist-model="order.foodinfo" checklist-value="[food._id,food.foodname,food.foodprice,food.foodscore]"></div>
+                    </div>
+                    
+                </div>
+                <center>
+                    <nav>
+                        <ul class="pagination">
+                            <li>
+                                <a ng-click="soupPrevious()" href="">
+                                    <span>上一页</span>
+                                </a>
+                            </li>
+                            <li ng-repeat="page in souppageList" ng-class="{active: isActivePage_soup(page)}" >
+                                <a ng-click="soupSelectPage(page)" href="">
+                                    {{page}}
+                                </a>
+                            </li>
+                            <li>
+                                <a ng-click="soupNext()" href="">
+                                    <span>下一页</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </center>
+            </div>
+            </div>
+            
+            <!--酒水类-->
+            <div class="col-md-4">
+            <div class="panel panel-danger" id="drink">
+                <div class="panel-heading">
+                    <h3 class="panel-title">酒水</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div ng-repeat="food in drink" class="food">
+                        <div class="foodimg"><img ng-src="/static/imgs/foodimgs/{{food.foodimg}}"></div>
+                        <div class="foodinfo">
+                            <ul class="list-unstyled">
+                                <li><b>{{food.foodname}}</b></li>
+                                <li>{{food.foodprice}} HKD</li>
+                                <li><p>{{food.fooddesc}}</p></li>
+                                <li><i>{{food.foodarea}}</i></li>
+                            </ul>
+                        </div>
+                        <div class="foodcheck"><input type="checkbox" checklist-model="order.foodinfo" checklist-value="[food._id,food.foodname,food.foodprice,food.foodscore]">
+                        </div>
+
+                    </div>
+                </div>
+                <center>
+                    <nav>
+                        <ul class="pagination">
+                            <li>
+                                <a ng-click="drinkPrevious()" href="">
+                                    <span>上一页</span>
+                                </a>
+                            </li>
+                            <li ng-repeat="page in drinkpageList" ng-class="{active: isActivePage_drink(page)}" >
+                                <a ng-click="drinkSelectPage(page)" href="">
+                                    {{page}}
+                                </a>
+                            </li>
+                            <li>
+                                <a ng-click="drinkNext()" href="">
+                                    <span>下一页</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </center>
+            </div>
+            </div>
+
+            <!--甜品类-->
+            <div class="col-md-4">
+            <div class="panel panel-default" id="sweet">
+                <div class="panel-heading">
+                    <h3 class="panel-title">甜品点心</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div ng-repeat="food in sweet" class="food">
+                        <div class="foodimg"><img ng-src="/static/imgs/foodimgs/{{food.foodimg}}"></div>
+                        <div class="foodinfo">
+                            <ul class="list-unstyled">
+                                <li><b>{{food.foodname}}</b></li>
+                                <li>{{food.foodprice}} HKD</li>
+                                <li><p>{{food.fooddesc}}</p></li>
+                                <li><i>{{food.foodarea}}</i></li>
+                            </ul>
+                        </div>
+                        <div class="foodcheck"><input type="checkbox" checklist-model="order.foodinfo" checklist-value="[food._id,food.foodname,food.foodprice,food.foodscore]"></div>
+                        <!--需要foodscore 给评分系统使用(仅被使用，此处无实际用途)-->
+                    </div>
+
+                </div>
+                <center>
+                    <nav>
+                        <ul class="pagination">
+                            <li>
+                                <a ng-click="sweetPrevious()" href="">
+                                    <span>上一页</span>
+                                </a>
+                            </li>
+                            <li ng-repeat="page in sweetpageList" ng-class="{active: isActivePage_sweet(page)}" >
+                                <a ng-click="sweetSelectPage(page)" href="">
+                                    {{page}}
+                                </a>
+                            </li>
+                            <li>
+                                <a ng-click="sweetNext()" href="">
+                                    <span>下一页</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </center>   
+            </div>
+            </div>        
+        </div>
+<!--
+    <div>
+        <h3>order.foodinfo</h3>
+        <pre>{{order.foodinfo|json}}</pre>
+    </div>  
+-->   
+</div>
+<footer>
+  <center>
+    The website is made by ZHANG Jie, 15097486g
+  </center>
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script type="text/javascript" src="/static/js/orderctrl.js"></script>
+<script type="text/javascript" src="/static/lib/checklist-model.js"></script>
+</body>
+</html>

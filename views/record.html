@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html ng-app = "recordapp">
+<head>
+	<title>数据分析专用页</title>
+</head>
+<body>
+<div ng-controller="recordctrl">
+
+<!--
+	在输入框找输入一个用户id，点击按钮后，显示其相似用户
+-->
+<div>
+	<input type="text" ng-model="v_id"></input>
+	<button ng-click="vector(v_id)">Vector</button>
+</div>
+<hr>
+
+<div>
+	<input type="text" ng-model="v_id1"></input>
+	<input type="text" ng-model="v_id2"></input>
+	<button ng-click="sim(v_id1,v_id2)">获取相似度</button>
+</div>
+<hr>
+
+<div>
+	<input type="text" ng-model="u_id"></input>
+	<button ng-click="foodsbyscore(u_id)">按分数排序</button>
+</div>
+<hr>
+
+<div>
+	<input type="text" ng-model="f_id"></input>
+	<button ng-click="foodsbysim(f_id)">按相似度排序</button>
+</div>
+<hr>
+
+<div>
+	<input type="text" ng-model="ru_id"></input>
+	<button ng-click="recmd(ru_id)">获取推荐数组</button>
+
+</div>
+<hr>
+<!--此区域找出所有相关的用户-->
+<table>
+<tr><td>评分表：</td></tr>
+	<tr><td width="300px">ItemId</td><td ng-repeat="users in userArray">{{users}}</td></tr>
+	<tr ng-repeat="foods in recordArray">
+		<td>{{foods[0][0]}}</td><td ng-repeat="scores in foods">{{scores[2]}}</td>
+	</tr>
+</table>
+<hr>
+<!--此区域显示所有food相似度-->
+<table>
+<tr><td>相似表：</td></tr>
+	<tr><td width="300px">ItemId</td><td ng-repeat="foods in foodArray">{{foods}}</td></tr>
+	<tr ng-repeat="foods in simArray">
+		<td>{{foods[0][0]}}</td><td ng-repeat="scores in foods track by $index">{{scores[2]}}</td>
+	</tr>
+</table>
+
+<hr>
+<!--此区域显示所有推荐food-->
+<table>
+<tr><td>推荐给{{ru_id}}的foods:</td></tr>
+<tr ng-repeat="food in recmdFood"><td>{{food}}</td></tr>
+</table>
+
+<!--
+<hr>
+<pre>{{recordArray|json}}</pre>
+<pre>{{records|json}}</pre>
+<hr>
+-->
+
+<!--
+<table>
+	<tr><td></td>
+	<td ng-repeat="food in foods">
+		<input type="text" ng-model="food.foodname"></input>
+	</td>
+	</tr>
+	<tr ng-repeat="user in users">
+		<td><input type="text" ng-model="user.username"></input></td>
+	</tr>
+</table>
+<hr>
+{{users}}
+<hr>
+{{foods}}
+-->
+
+</div>	
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script type="text/javascript" src="/static/js/record.js"></script>
+</body>
+</html>

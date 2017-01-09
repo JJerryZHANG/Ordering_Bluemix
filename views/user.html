@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html ng-app="userapp">
+<head>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link rel="stylesheet" href="/static/css/public.css"></link>
+	<link rel="stylesheet" href="/static/css/user.css"></link>
+	<title>User Info</title>
+</head>
+<body>
+	<!--  在用户中心可以查看用户预订菜单 -->
+	<div class="container" ng-controller="userctrl">
+	<header>
+    <div class="row">
+
+    <div class="logo col-md-9">
+      <a href="/"><img src="/static/imgs/logo/logo.png"></a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="/">返回主页</a>
+    </div>
+
+    </div>
+	</header>
+
+	<!--个人信息＋当前订单＋历史评分-->
+	<div class="row">
+
+	<div class="col-md-1">
+			
+		</div>
+
+		<div class="col-md-5" id="personal-info">
+			<!--个人信息面板-->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">个人信息</h3>
+				</div>
+				<div class="panel-body">
+				<div class="row">
+					<div class="col-md-6" id="head-img"><img ng-src="/static/imgs/headimgs/{{user.sex}}.jpg" style="width: 200px; height: 200px; margin-bottom: 20px; "></div>
+
+					<div class="col-md-6" id="detail-info">
+					<ul class="list-unstyled">
+						<li><h4><span class="label label-success">用户名:</span> <span class="label label-default">{{user.username}}</span></h4></li>
+						<li><h4><span class="label label-info">年龄:</span> <span class="label label-default">{{user.age}}</span></h4></li>
+						<li><h4><span class="label label-warning">性别:</span> <span class="label label-default">{{user.sex}}</span></h4></li>
+						<li><h4><span class="label label-danger">喜欢的菜系:</span> <span class="label label-default">{{user.area}}</span></h4></li>
+					</ul>
+					</div>
+				</div>
+				</div>
+			</div>
+
+			<!--历史评分-->
+			<div id="user-marks"></div>
+
+		</div>
+
+		<!--订单信息-->
+		<div class="col-md-4" id="userorder-info">
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">订单信息({{CurrentStatus}})</h3>
+				</div>
+				<div class="panel-body">
+					<!--status为 1，2-->
+					<div ng-show = paidTip.show >
+						<em>当前无未付款订单。</em>
+						<a href="/order">去点单</a>
+					</div>
+
+					<!--显示用户未付款订单，status为4，－1，0-->
+					<table class="table" ng-show = UnpaidOrder.show >
+						<tr>
+							<td><h4>这是你当前的订单:</h4></td>
+							<td><button class="btn btn-danger" id="cancel" type="button" ng-click="cancelorder()" ng-show = cancelBtn.show >取消订单</button></td>
+						</tr>
+						<tr>
+							<td><strong>菜名：</strong></td>
+							<td><strong>价格：</strong></td>
+						</tr>
+						<tr ng-repeat="info in order.foods">
+							<td>
+								<mark>{{info[1]}}</mark>
+							</td>
+							<td>
+								<em>{{info[2]}}</em>
+							</td>
+						</tr>
+						<tr><td>价格总计：</td><td>
+							<em>{{order.total}}</em>
+						</td></tr>
+					</table>
+
+					<div ng-show = markedTip.show >
+						<em>当前无未评分的菜。</em>
+					</div>
+					<!--用户未打分的表-->
+					<table class="table" ng-show = UnmarkedOrder.show >
+						<tr>
+							<td><h4>这是当前的评分表:</h4></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><strong>菜名：</strong></td>
+							<td><strong>评分：</strong></td>
+						</tr>
+						<tr ng-repeat="info in marktable.foods">
+							<td>
+								<strong>{{info[1]}}</strong>
+							</td>
+							<td>
+								<select class="form-control" ng-model="info[3]" ng-options="option for option in score_options">
+								</select>
+							</td>	
+						</tr>
+						<tr><td></td><td><button type="button" class="btn btn-success" ng-click="addrecord()">提交评分</button></td></tr>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</div><!--row-->
+</div><!--container-->
+<footer>
+  <center>
+    The website is made by ZHANG Jie, 15097486g
+  </center>
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script type="text/javascript" src="/static/js/userctrl.js"></script>
+</body>
+</html>

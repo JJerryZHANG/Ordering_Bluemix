@@ -1,0 +1,10 @@
+applications:
+- path: .
+  memory: 2048M
+  instances: 1
+  domain: eu-gb.mybluemix.net
+  name: 15097486g
+  host: 15097486g
+  disk_quota: 1024M
+  services: 
+    - 15097486g
